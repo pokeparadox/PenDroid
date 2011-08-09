@@ -10,18 +10,20 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Paint.Style;
+import android.view.Display;
 
 //	This is a Singleton Graphics processor
 
 public class GFX {
 	private static final String TAG = GFX.class.getSimpleName();
 	private static GFX instance;
-	private Paint paint;
-	private Colour clearColour;
-	private Colour drawColour;
-	private int drawWidth = -1;
-	private Vector2d<Integer> dimensions;
-	private Vector<RenderObject> rendObjs;
+	private static Canvas canvas;
+	private static Paint paint;
+	private static Colour clearColour;
+	private static Colour drawColour;
+	private static int drawWidth = -1;
+	private static Vector2d<Integer> dimensions;
+	private static Vector<RenderObject> rendObjs;
 	
 	//	Ensure the existence of only one instance of the GFX object
 	public static synchronized GFX getInstance(){
@@ -33,11 +35,14 @@ public class GFX {
 	private GFX(){
 		clearColour = new Colour();
 		drawColour = new Colour();
+		rendObjs = new Vector<RenderObject>();
 		paint = new Paint();
 		paint.setStyle(Style.FILL);
-		/*Display display = getWindowManager().getDefaultDisplay(); 
-		int width = display.getWidth();
-		int height = display.getHeight();*/
+		
+		/* TODO FIXME
+		Display display = getWindowManager().getDefaultDisplay();
+		dimensions.setX(display.getWidth());
+		dimensions.setY(display.getHeight());*/
 	}
 
 	public void setDrawWidth(int w){
@@ -87,8 +92,10 @@ public class GFX {
 	}
 	
 	public void setDrawColour(Colour c){
+		if(c != null){
 		drawColour = c;
 		paint.setColor(c.getIntegerColour());
+		}
 	}
 	
 	public void setClearColour(Colour c){
@@ -125,7 +132,10 @@ public class GFX {
 	public int getHeight() {
 		return dimensions.getY();
 	}
-	
-	
 
+	public void renderQueue() {
+		for(int i = 0; i < rendObjs.size(); ++i)
+			rendObjs.get(i).render(canvas);
+		rendObjs.clear();
+	}
 }
