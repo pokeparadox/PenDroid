@@ -29,8 +29,9 @@ public class RenderObject implements PositionObject{
 	}
 
 	@Override
-	public void setPosition(Vector2d<Float> p) {
-		position = p;
+	public void setPosition(Vector2d<?> p) {
+		position.setX((Float)p.getX());
+		position.setY((Float)p.getY());
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package com.pirategames.pendroid;
 
 public interface PositionObject {
 	
-	public void setPosition(Vector2d<Float> p);
+	public void setPosition(Vector2d<?> p);
 	
 	public void setX(float x);
 	

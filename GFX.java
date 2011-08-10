@@ -111,6 +111,14 @@ public class GFX {
 	public void clear(Canvas c, Colour col){
 		c.drawColor(col.getIntegerColour());
 	}
+	
+	public void drawPixel(Canvas c, Vector2d<Float> point){
+		c.drawPoint(point.getX(), point.getY(), paint);
+	}
+	
+	public void drawLine(Canvas c, Vector2d<Float> p1, Vector2d<Float> p2){
+		c.drawLine(p1.getX(), p1.getY(), p2.getX(), p2.getY(), paint);
+	}
 
 	// Primitive drawing
 	public void drawRectangle(Canvas c, Rect rect){

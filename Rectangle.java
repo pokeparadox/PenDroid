@@ -19,10 +19,8 @@ public class Rectangle extends Primitive implements DimensionObject{
 	
 	public void render(Canvas c){ 
         //	We draw the rectangle;
-        GFX gfx = GFX.getInstance();
-        gfx.setDrawColour(colour);
-        gfx.setDrawWidth(drawWidth);
-        gfx.drawRectangle(c, rect);
+		super.render(c);
+        GFX.getInstance().drawRectangle(c, rect);
 	}
 
 
@@ -81,18 +79,18 @@ public class Rectangle extends Primitive implements DimensionObject{
 
 
 	@Override
-	public void setPosition(Vector2d<Float> p) {
-		position = p;
-		CalculatorInt calc = CalculatorInt.getInstance();
-		rect.left = calc.convert(p.getX());
-		rect.top = calc.convert(p.getY());	
+	public void setPosition(Vector2d<?> p) {
+		super.setPosition(p);
+		CalculatorFloat c = CalculatorFloat.getInstance();
+		rect.left = (Integer)c.toInt((Float) p.getX());
+		rect.top = (Integer)c.toInt((Float) p.getY());
 	}
 
 
 
 	@Override
 	public void setX(float x) {
-		position.setX(x);
+		super.setX(x);
 		rect.left = (int) x;
 	}
 
@@ -100,7 +98,7 @@ public class Rectangle extends Primitive implements DimensionObject{
 
 	@Override
 	public void setY(float y) {
-		position.setY(y);
+		super.setY(y);
 		rect.top = (int) y;
 	}
 
