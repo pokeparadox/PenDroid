@@ -19,6 +19,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         
         // make the GamePanel focusable so it can handle events
         setFocusable(true);
+        //	Get the static context of the application
 	}
 
 	@Override

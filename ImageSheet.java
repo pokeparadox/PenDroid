@@ -9,7 +9,7 @@ import android.graphics.Rect;
 
 public class ImageSheet extends Image{
 	private static final String TAG = ImageSheet.class.getSimpleName();
-	protected boolean sheetMode = true;
+	protected boolean sheetMode = false;
 	protected int activeImage = 0;
 	protected Vector<Bitmap> 	surfaces;	// 	Store the BitMap per frame.
 	protected Vector<Integer>	surfaceIDs;	//	Store the ID of the BitMaps
@@ -31,7 +31,7 @@ public class ImageSheet extends Image{
 			surfaces.add(bitmap);
 			surfaceIDs.add(resourceID);
 //			We clear out the image to be able to continue loading frames.
-			super.clear();
+			bitmap = null;
 		}
 	}
 
@@ -123,12 +123,23 @@ public class ImageSheet extends Image{
 	//	Render the currently active Image to the screen.
 	public void render(Canvas c){
 		// where to draw the sprite
-		CalculatorInt calc = CalculatorInt.getInstance();
-		Rect destRect = new Rect(calc.convert(position.getX()), calc.convert(position.getY()), 
-				calc.convert(position.getX() + clipAreas.get(activeImage).getWidth()), 
-				calc.convert(position.getY() + clipAreas.get(activeImage).getHeight()));
-		
-		c.drawBitmap(bitmap, clipAreas.get(activeImage).getRect(), destRect, null);
+		CalculatorInt ci = CalculatorInt.getInstance();
+		if(sheetMode)
+		{
+			Rect destRect = new Rect(ci.convert(position.getX()), ci.convert(position.getY()), 
+					ci.convert(position.getX() + clipAreas.get(activeImage).getWidth()), 
+					ci.convert(position.getY() + clipAreas.get(activeImage).getHeight()));
+			
+			c.drawBitmap(bitmap, clipAreas.get(activeImage).getRect(), destRect, null);		
+		}
+		else
+		{
+			Rect destRect = new Rect(ci.convert(position.getX()), ci.convert(position.getY()), 
+					ci.convert(position.getX() + surfaces.get(activeImage).getWidth()), 
+					ci.convert(position.getY() + surfaces.get(activeImage).getHeight()));
+			
+			c.drawBitmap(surfaces.get(activeImage), null, destRect, null);		
+		}
 	}
 	
 	//	return the number of subImages the sheet contains.
